@@ -19,18 +19,18 @@ const createCollege= async function(req, res){
     if (!isValid(name))
      { return res.status(400).send({ status: false, msg: "name is required" }) }
 
-     const Name= await CollegeModel.findOne({name})
-     if(Name){
+     const collegeSortName= await CollegeModel.findOne({name})
+     if(collegeSortName){
      return res.status(400).send({status:false, message:"college already exist"})
     }
 
     if (!isValid(fullName)) 
     { return res.status(400).send({ status: false, msg: "full name is required" }) }
    
-    const fName= await CollegeModel.findOne({fullName: {
+    const collegeFullName= await CollegeModel.findOne({fullName: {
       "$regex": fullName, "$options": "i"
      }})
-     if(fName){
+     if(collegeFullName){
      return res.status(400).send({status:false, message:"college already exist"})
     }
 
@@ -39,7 +39,7 @@ const createCollege= async function(req, res){
     
      if(!(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(logoLink))){
       
-      return res.status(400).send({ status: false, message: "logo link is not valid" })
+      return res.status(400).send({ status: false, message: "please enter a valid logo link" })
     }
 
 const newCollege= await CollegeModel.create(data)
@@ -54,12 +54,6 @@ else { return res.status(400).send({ ERROR: " invalid request " }) }
  }
 }
 
-
-// const docs = mycollection.find({
-// //   "dt_name": {
-//   "$regex": param1, "$options": "i"
-//  }
-// });
 
 ////....... GET COLLEGE DETAILS...................................................
 const getCollegeDetails= async function(req,res){
@@ -98,6 +92,3 @@ catch(err)
 module.exports.createCollege = createCollege
 module.exports.getCollegeDetails = getCollegeDetails
 
-// const getBooksWithAuthorDetails = async function (req, res) {
-//     let specificBook = await bookModel.find().populate('author_id')
-//     res.send({data: specificBook})
