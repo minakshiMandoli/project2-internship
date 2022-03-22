@@ -9,7 +9,7 @@ const isValid = function (value) {
     return true
   
   }
-
+/// CREATE COLLEGE............................................................................................
 const createCollege= async function(req, res){
  try{
   const data= req.body;
@@ -27,7 +27,9 @@ const createCollege= async function(req, res){
     if (!isValid(fullName)) 
     { return res.status(400).send({ status: false, msg: "full name is required" }) }
    
-    const fName= await CollegeModel.findOne({fullName})
+    const fName= await CollegeModel.findOne({fullName: {
+      "$regex": fullName, "$options": "i"
+     }})
      if(fName){
      return res.status(400).send({status:false, message:"college already exist"})
     }
@@ -35,19 +37,16 @@ const createCollege= async function(req, res){
     if (!isValid(logoLink))
      { return res.status(400).send({ status: false, msg: "logo is required " }) }
     
-     if((/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(logoLink))){
+     if(!(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(logoLink))){
       
-        return res.status(400).send({ status: false, message: "logo link is not valid" })
-     }
-
-
+      return res.status(400).send({ status: false, message: "logo link is not valid" })
+    }
 
 const newCollege= await CollegeModel.create(data)
 return res.status(201).send({status:true,data:newCollege})
 
 }
 else { return res.status(400).send({ ERROR: " invalid request " }) }
-
 
  }
  catch(err){
@@ -56,13 +55,19 @@ else { return res.status(400).send({ ERROR: " invalid request " }) }
 }
 
 
+// const docs = mycollection.find({
+// //   "dt_name": {
+//   "$regex": param1, "$options": "i"
+//  }
+// });
 
+////....... GET COLLEGE DETAILS...................................................
 const getCollegeDetails= async function(req,res){
   try{
   const collegeNameToGetdetails= req.query.collegeName
 
   if(!isValid(collegeNameToGetdetails)){
-    return res.status(400).send({ status: false, message: "no query parameter provided" })
+    return res.status(400).send({ status: false, message: "please enter college name in query parameter" })
   }
   const collegeData= await CollegeModel.findOne({name:collegeNameToGetdetails, isDeleted:false})
   if(!isValid(collegeData)){

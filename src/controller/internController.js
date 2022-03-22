@@ -12,15 +12,15 @@ const isValid = function (value) {
 
 }
 
-
+///
 const createIntern = async function (req, res) {
     try {
         let data = req.body
         if (Object.keys(data).length >0) {
 
-            const { name, mobile, email,collegeName} = data
+            const { name, mobile, email, collegeId} = data
             
-            const collegeData = await CollegeModel.findOne({ name: collegeName, isDeleted:false})
+            const collegeData = await CollegeModel.findOne({_id: collegeId, isDeleted:false})
              if (!collegeData) {
                  return res.status(400).send({ status: false, message: "college you are looking for, does not exist" })
              }
@@ -55,14 +55,14 @@ const createIntern = async function (req, res) {
 
             //  const collegeId=collegeData._id
             //  console.log(collegeId)
-            const internDetails={
-                     name : data.name,
-                     email : data.email,
-                    mobile : data.mobile,
-                    collegeId:collegeData._id
-                    }
+            // const internDetails={
+            //          name : data.name,
+            //          email : data.email,
+            //         mobile : data.mobile,
+            //         collegeId:collegeData._id
+            //         }
             
-            let newIntern= await InternModel.create(internDetails)
+            let newIntern= await InternModel.create(data)
             return res.status(201).send({ status: true, data: newIntern })
 
         }
@@ -76,47 +76,6 @@ const createIntern = async function (req, res) {
 
 
 }
-
-// const createIntern = async function (req, res) {
-
-
-//     try {
-
-//         let data = req.body;
-
-//         if (Object.keys(data).length > 0) {
-     
-            
-//             if (!isValid(data.name)) { return res.status(400).send({ status: false, msg: "First name is required" }) }
-//             if(!isValid(data.collegeId)){return res.status(400).send({status:false , msg:"College Id is required"})}
-
-//             if (!(/^\w+([\.-]?\w+)@\w+([\. -]?\w+)(\.\w{2,3})+$/.test(data.email))) {
-//                 return res.status(400).send({ status: false, msg: "Please provide a valid email" })
-//             }
-//             if (!(/^([+]\d{2})?\d{10}$/.test(data.mobile))) {
-//                 return res.status(400).send({ status: false, msg: "please provide a valid moblie Number" })
-//             }
-
-//             let dupli = await InternModel.findOne({ email: data.email })
-
-//             if (dupli) { return res.status(400).send({ status: false, msg: "Email already exists" }) }
-
-//             let savedData = await InternModel.create(data);
-//             return res.status(201).send({ internDetails: savedData });
-
-//         } else {
-//             return res.status(400).send({ ERROR: "BAD REQUEST" })
-//         }
-
-//     } catch (err) {
-
-//         return res.status(500).send({ ERROR: err.message })
-
-//     }
-// }
-
-
-
 
 
 module.exports.createIntern = createIntern
