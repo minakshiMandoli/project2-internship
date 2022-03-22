@@ -5,6 +5,7 @@ name : { type: String,
          unique:true,
          trim:true,
          required:true,
+         lowercase: true
 },
 
 fullName:{
@@ -17,7 +18,8 @@ logoLink:{
     type:String,
     required:true
 },
-isDeleted:{tyoe:Boolean,default:false}
+isDeleted:{type:Boolean,
+    default:false}
 
 
 
