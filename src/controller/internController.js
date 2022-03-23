@@ -1,10 +1,6 @@
 const InternModel = require("../models/internModel")
 const CollegeModel = require('../models/collegeModel')
 
-//const {phone} = require('phone');
-
-
-
 const isValid = function (value) {
     if (typeof value == undefined || value == null || value.length == 0) return false
     if (typeof value === 'string' && value.trim().length === 0) return false
@@ -12,7 +8,7 @@ const isValid = function (value) {
 
 }
 
-///
+///CREATE INTERN.............................................................................................
 const createIntern = async function (req, res) {
     try {
         let data = req.body
@@ -66,7 +62,7 @@ const createIntern = async function (req, res) {
             return res.status(201).send({ status: true, data: newIntern })
 
         }
-        else { return res.status(400).send({ ERROR: " Bad request " }) }
+        else { return res.status(400).send({ ERROR: "invalid request " }) }
 
     }
     catch (err) {

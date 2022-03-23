@@ -9,6 +9,11 @@ const isValid = function (value) {
     return true
   
   }
+
+
+//    function capitalize(input) {  
+//     return input.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');  
+// }
 /// CREATE COLLEGE............................................................................................
 const createCollege= async function(req, res){
  try{
@@ -41,6 +46,7 @@ const createCollege= async function(req, res){
       
       return res.status(400).send({ status: false, message: "please enter a valid logo link" })
     }
+
 
 const newCollege= await CollegeModel.create(data)
 return res.status(201).send({status:true,data:newCollege})

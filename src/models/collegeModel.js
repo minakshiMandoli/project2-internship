@@ -16,7 +16,8 @@ fullName:{
 },
 logoLink:{
     type:String,
-    required:true
+    required:true,
+    trim:true
 },
 isDeleted:{type:Boolean,
     default:false}
